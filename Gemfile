@@ -8,8 +8,6 @@ gem 'sass-rails', '~> 4.0.0'
 gem 'mysql2'
 gem 'pg'
 
-gem 'active_model_serializers', git: 'https://github.com/rails-api/active_model_serializers.git', branch: 'master'
-
 group :test do
   #gem 'test_after_commit'
   gem 'hub_samples', github: "spree/hub_samples", branch: "master"

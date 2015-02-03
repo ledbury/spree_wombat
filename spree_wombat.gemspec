@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
   gem.version       = '2.2.0'
 
   gem.add_dependency 'spree_core'
-  gem.add_dependency 'active_model_serializers', '0.10.0.pre'
+  gem.add_dependency 'active_model_serializers', '0.9.2'
   gem.add_dependency 'httparty'
 
   gem.add_development_dependency 'capybara', '~> 2.1'
