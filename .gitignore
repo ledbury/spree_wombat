@@ -6,7 +6,6 @@ log/
 .bundle
 nbproject
 **.gem
-Gemfile.lock
 spec/dummy/
 .rvmrc
 tmp
