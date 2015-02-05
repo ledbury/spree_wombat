@@ -1,3 +1,5 @@
+require 'pry'
+
 module Spree
   module Wombat
     module Handler
@@ -105,7 +107,7 @@ module Spree
 
           shipments_payload = []
           shipment.order.reload.shipments.each do |shipment|
-            shipments_payload << ShipmentSerializer.new(shipment.reload, root: false).serializable_hash
+            shipments_payload << ShipmentSerializer.new(shipment.reload, root: false).object.serializable_hash
           end
           return response("Added shipment #{shipment.number} for order #{order.number}", 200, Base.wombat_objects_for(shipment))
         end

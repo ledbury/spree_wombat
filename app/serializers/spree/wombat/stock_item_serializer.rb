@@ -19,6 +19,7 @@ module Spree
         object.count_on_hand
       end
 
+      include Spree::Wombat::JsonFromAttributes
     end
   end
 end

@@ -1,4 +1,5 @@
 require 'active_model/serializer'
+require 'pry'
 
 module Spree
   module Wombat
@@ -10,8 +11,10 @@ module Spree
       has_many :line_items,  serializer: Spree::Wombat::LineItemSerializer
       has_many :payments, serializer: Spree::Wombat::PaymentSerializer
 
-      has_one :shipping_address, serializer: Spree::Wombat::AddressSerializer
-      has_one :billing_address, serializer: Spree::Wombat::AddressSerializer
+      #has_many :shipping_address, serializer: Spree::Wombat::AddressSerializer
+      #has_many :billing_address, serializer: Spree::Wombat::AddressSerializer
+      #has_one :shipping_address, serializer: Spree::Wombat::AddressSerializer
+      #has_one :billing_address, serializer: Spree::Wombat::AddressSerializer
 
       def id
         object.number
@@ -59,6 +62,8 @@ module Spree
           { name: 'shipping', value: shipping_total }
         ]
       end
+
+      include Spree::Wombat::JsonFromAttributes
 
       private
 

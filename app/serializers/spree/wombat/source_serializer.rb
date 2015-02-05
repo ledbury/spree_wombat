@@ -20,6 +20,8 @@ module Spree
       def source_type
         object.class.to_s
       end
+
+      include Spree::Wombat::JsonFromAttributes
     end
   end
 end

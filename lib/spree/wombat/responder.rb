@@ -1,9 +1,7 @@
-require "active_model/serializer_support"
-
 module Spree
   module Wombat
     class Responder
-      include ActiveModel::SerializerSupport
+      alias read_attribute_for_serialization send
       attr_accessor :request_id, :summary, :code, :backtrace, :objects
 
       def initialize(request_id, summary, code=200, objects=nil)

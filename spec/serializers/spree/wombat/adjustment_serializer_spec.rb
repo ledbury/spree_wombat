@@ -6,7 +6,6 @@ module Spree
 
       let(:adjustment) { create(:adjustment) }
       let(:serialized_adjustment) { AdjustmentSerializer.new(adjustment, root: false).to_json }
-
       it "serializes the value as float" do
         expect(JSON.parse(serialized_adjustment)["value"].class).to eql Float
       end
@@ -14,7 +13,6 @@ module Spree
       it "serializes the label as name" do
         expect(JSON.parse(serialized_adjustment)["name"]).to eql adjustment.label
       end
-
     end
   end
 end

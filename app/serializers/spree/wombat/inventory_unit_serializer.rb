@@ -20,6 +20,8 @@ module Spree
       def name
         object.variant.name
       end
+
+      include Spree::Wombat::JsonFromAttributes
     end
   end
 end

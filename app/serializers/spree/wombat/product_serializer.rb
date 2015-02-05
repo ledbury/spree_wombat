@@ -1,4 +1,5 @@
-require 'active_model/serializer'
+require 'active_model_serializers'
+require 'pry'
 
 module Spree
   module Wombat
@@ -6,7 +7,7 @@ module Spree
 
       attributes :id, :name, :sku, :description, :price, :cost_price,
                  :available_on, :permalink, :meta_description, :meta_keywords,
-                 :shipping_category, :taxons, :options, :variants
+                 :shipping_category, :taxons, :options, :variants, :images
 
       has_many :images, serializer: Spree::Wombat::ImageSerializer
 
@@ -42,18 +43,7 @@ module Spree
         object.option_types.pluck(:name)
       end
 
-      def variants
-        if object.variants.empty?
-          [Spree::Wombat::VariantSerializer.new(object.master, root:false)]
-        else
-          ActiveModel::ArraySerializer.new(
-            object.variants,
-            each_serializer: Spree::Wombat::VariantSerializer,
-            root: false
-          )
-        end
-      end
-
+      include Spree::Wombat::JsonFromAttributes
     end
   end
 end

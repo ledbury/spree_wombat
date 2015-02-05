@@ -3,6 +3,7 @@ require 'active_model/serializer'
 module Spree
   module Wombat
     class AdjustmentSerializer < ActiveModel::Serializer
+
       attributes :name, :value
 
       def name
@@ -13,6 +14,7 @@ module Spree
         object.amount.to_f
       end
 
+      include Spree::Wombat::JsonFromAttributes
     end
   end
 end

@@ -24,6 +24,8 @@ module Spree
         }
       end
 
+      include Spree::Wombat::JsonFromAttributes
+
       private
 
       def add_host_prefix(url)

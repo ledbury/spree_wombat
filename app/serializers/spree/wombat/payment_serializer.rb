@@ -20,6 +20,8 @@ module Spree
       def amount
         object.amount.to_f
       end
+
+      include Spree::Wombat::JsonFromAttributes
     end
   end
 end

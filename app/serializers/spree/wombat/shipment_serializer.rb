@@ -5,10 +5,21 @@ module Spree
     class ShipmentSerializer < ActiveModel::Serializer
       attributes :id, :order_id, :email, :cost, :status, :stock_location,
                 :shipping_method, :tracking, :placed_on, :shipped_at, :totals,
-                :updated_at, :channel, :items
+                :updated_at, :channel, :items, :ship_to, :bill_to, :billing_address,
+                :shipping_address
 
-      has_one :bill_to, serializer: AddressSerializer, root: "billing_address"
-      has_one :ship_to, serializer: AddressSerializer, root: "shipping_address"
+      #has_one :bill_to, serializer: AddressSerializer, root: "billing_address"
+      #has_one :ship_to, serializer: AddressSerializer, root: "shipping_address"
+      #has_many :bill_to, serializer: AddressSerializer, root: "billing_address"
+      #has_many :ship_to, serializer: AddressSerializer, root: "shipping_address"
+
+      def billing_address
+        Spree::Wombat::AddressSerializer.new(object.order.bill_address)
+      end
+
+      def shipping_address
+        Spree::Wombat::AddressSerializer.new(object.order.ship_address)
+      end
 
       def id
         object.number
@@ -70,12 +81,10 @@ module Spree
       end
 
       def items
-        i = []
-        object.inventory_units.each do |li|
-          i << InventoryUnitSerializer.new(li, root: false)
-        end
-        i
+        object.inventory_units
       end
+
+      include Spree::Wombat::JsonFromAttributes
 
       private
 

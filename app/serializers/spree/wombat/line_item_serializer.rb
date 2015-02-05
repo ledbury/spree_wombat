@@ -13,6 +13,7 @@ module Spree
         object.price.to_f
       end
 
+      include Spree::Wombat::JsonFromAttributes
     end
   end
 end

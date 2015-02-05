@@ -4,7 +4,7 @@ module Spree
   module Wombat
     class VariantSerializer < ActiveModel::Serializer
 
-      attributes :sku, :price, :cost_price, :options
+      attributes :sku, :price, :cost_price, :options, :images
       has_many :images, serializer: Spree::Wombat::ImageSerializer
 
       def price
@@ -19,6 +19,7 @@ module Spree
         object.option_values.each_with_object({}) {|ov,h| h[ov.option_type.presentation]= ov.presentation}
       end
 
+      include Spree::Wombat::JsonFromAttributes
     end
   end
 end

@@ -3,7 +3,7 @@ require 'active_model/serializer'
 module Spree
   module Wombat
     class ResponderSerializer < ActiveModel::Serializer
-      attributes :request_id, :summary, :backtrace, :objects
+      attributes :request_id, :summary, :objects, :backtrace
 
       def filter(keys)
         keys.delete(:backtrace) unless object.backtrace.present?
@@ -21,6 +21,7 @@ module Spree
         hash
       end
 
+      include Spree::Wombat::JsonFromAttributes
     end
   end
 end
