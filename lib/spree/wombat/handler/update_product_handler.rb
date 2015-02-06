@@ -1,4 +1,5 @@
 require 'open-uri'
+require 'byebug'
 
 module Spree
   module Wombat
@@ -44,7 +45,7 @@ module Spree
 
           product
         end
-        
+
       end
     end
   end

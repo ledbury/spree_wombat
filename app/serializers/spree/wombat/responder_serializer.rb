@@ -11,7 +11,7 @@ module Spree
         keys
       end
 
-      def attributes
+      def attributes(x=nil)
         hash = super
         if objects = hash.delete(:objects)
           objects.each do |key, values|
@@ -21,7 +21,6 @@ module Spree
         hash
       end
 
-      include Spree::Wombat::JsonFromAttributes
     end
   end
 end

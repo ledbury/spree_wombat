@@ -5,16 +5,22 @@ module Spree
     class AddressSerializer < ActiveModel::Serializer
       attributes :firstname, :lastname, :address1, :address2, :zipcode, :city,
                  :state , :phone, :country
-                 
+
       def country
-        object.country.iso
+        if object
+          if object.country
+            object.country.iso
+          end
+        end
       end
 
       def state
-        if object.state
-          object.state.abbr
-        else
-          object.state_name
+        if object
+          if object.state
+            object.state.abbr
+          else
+            object.state_name
+          end
         end
       end
 

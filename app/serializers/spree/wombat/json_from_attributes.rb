@@ -17,7 +17,7 @@ module Spree
         end
         "{#{attr_json.join(',')}}"
       end
-      
+
     end
   end
 end
