@@ -6,7 +6,6 @@ module Spree
       class UpdateShipmentHandler < Base
 
         def process
-          #byebug
           shipment_hsh = @payload[:shipment]
 
           order_number = shipment_hsh.delete(:order_id)
@@ -14,7 +13,7 @@ module Spree
 
           shipment = Spree::Shipment.find_by_number(shipment_number)
           return response("Can't find shipment #{shipment_number}", 500) unless shipment
-#binding.pry
+
           address_attributes = shipment_hsh.delete(:shipping_address)
           if address_attributes
             country_iso = address_attributes.delete(:country)

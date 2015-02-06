@@ -8,11 +8,6 @@ module Spree
                 :updated_at, :channel, :items, :ship_to, :bill_to, :billing_address,
                 :shipping_address
 
-      #has_one :bill_to, serializer: AddressSerializer, root: "billing_address"
-      #has_one :ship_to, serializer: AddressSerializer, root: "shipping_address"
-      #has_many :bill_to, serializer: AddressSerializer, root: "billing_address"
-      #has_many :ship_to, serializer: AddressSerializer, root: "shipping_address"
-
       def billing_address
         Spree::Wombat::AddressSerializer.new(object.order.bill_address)
       end

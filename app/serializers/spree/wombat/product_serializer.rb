@@ -1,5 +1,4 @@
 require 'active_model_serializers'
-require 'pry'
 
 module Spree
   module Wombat

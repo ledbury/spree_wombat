@@ -1,10 +1,8 @@
-require 'pry'
-
 module Spree
   module Wombat
     module JsonFromAttributes
 
-      def to_json
+      def to_json(*args)
         attr_json = []
         attributes.each do |key, value|
           if value

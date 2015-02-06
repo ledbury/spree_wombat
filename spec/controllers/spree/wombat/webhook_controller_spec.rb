@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'byebug'
 
 module Spree
   describe Wombat::WebhookController do
