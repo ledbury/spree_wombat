@@ -9,7 +9,25 @@ module Spree
                  :available_on, :permalink, :meta_description, :meta_keywords,
                  :shipping_category, :taxons, :options, :variants, :images
 
-      has_many :images, serializer: Spree::Wombat::ImageSerializer
+      has_many :images
+      has_many :variants
+
+      def images
+        ActiveModel::Serializer::ArraySerializer.new(
+          object.images,
+          serializer: Spree::Wombat::ImageSerializer,
+          root: false
+        )
+      end
+
+      def variants
+        variants_array = (object.variants.blank?) ? [object.master] : object.variants
+        ActiveModel::Serializer::ArraySerializer.new(
+            variants_array,
+            serializer: Spree::Wombat::VariantSerializer,
+            root: false
+          )
+      end
 
       def id
         object.sku
@@ -43,7 +61,7 @@ module Spree
         object.option_types.pluck(:name)
       end
 
-      include Spree::Wombat::JsonFromAttributes
+    include Spree::Wombat::JsonFromAttributes
     end
   end
 end

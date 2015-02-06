@@ -5,7 +5,15 @@ module Spree
     class VariantSerializer < ActiveModel::Serializer
 
       attributes :sku, :price, :cost_price, :options, :images
-      has_many :images, serializer: Spree::Wombat::ImageSerializer
+      has_many :images
+
+      def images
+        ActiveModel::Serializer::ArraySerializer.new(
+          object.images,
+          serializer: Spree::Wombat::ImageSerializer,
+          root: false
+        )
+      end
 
       def price
         object.price.to_f

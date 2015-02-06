@@ -6,15 +6,26 @@ module Spree
     class OrderSerializer < ActiveModel::Serializer
 
       attributes :id, :status, :channel, :email, :currency, :placed_on, :updated_at, :totals,
-        :adjustments, :token, :shipping_instructions
+        :adjustments, :token, :shipping_instructions, :line_items, :payments
 
-      has_many :line_items,  serializer: Spree::Wombat::LineItemSerializer
-      has_many :payments, serializer: Spree::Wombat::PaymentSerializer
+      has_many :line_items
+      has_many :payments
 
-      #has_many :shipping_address, serializer: Spree::Wombat::AddressSerializer
-      #has_many :billing_address, serializer: Spree::Wombat::AddressSerializer
-      #has_one :shipping_address, serializer: Spree::Wombat::AddressSerializer
-      #has_one :billing_address, serializer: Spree::Wombat::AddressSerializer
+      def line_items
+        ActiveModel::Serializer::ArraySerializer.new(
+          object.line_items,
+          serializer: Spree::Wombat::LineItemSerializer,
+          root: false
+        )
+      end
+
+      def payments
+        ActiveModel::Serializer::ArraySerializer.new(
+          object.payments,
+          serializer: Spree::Wombat::PaymentSerializer,
+          root: false
+        )
+      end
 
       def id
         object.number

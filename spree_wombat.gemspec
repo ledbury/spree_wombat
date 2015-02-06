@@ -27,4 +27,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'selenium-webdriver'
   gem.add_development_dependency 'simplecov'
   gem.add_development_dependency 'sqlite3'
+  gem.add_development_dependency 'byebug'
 end
