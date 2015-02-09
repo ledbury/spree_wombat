@@ -28,9 +28,9 @@ module Spree
 
         scope.where(updated_at: last_push_time...this_push_time).find_in_batches(batch_size: Spree::Wombat::Config[:batch_size]) do |batch|
           object_count += batch.size
-          payload = ActiveModel::ArraySerializer.new(
+          payload = ActiveModel::Serializer::ArraySerializer.new(
             batch,
-            each_serializer: payload_builder[:serializer].constantize,
+            serializer: payload_builder[:serializer].constantize,
             root: payload_builder[:root]
           ).to_json
 
