@@ -42,6 +42,7 @@ module Spree
       end
 
       def self.push(json_payload)
+        binding.pry
         res = HTTParty.post(
                 Spree::Wombat::Config[:push_url],
                 {
