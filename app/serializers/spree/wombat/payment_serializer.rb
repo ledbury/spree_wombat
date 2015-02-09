@@ -10,7 +10,9 @@ module Spree
       end
 
       def payment_method
-        object.payment_method.name
+        if object.payment_method
+          object.payment_method.name
+        end
       end
 
       def status

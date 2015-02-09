@@ -14,7 +14,9 @@ module Spree
       end
 
       def product_id
-        object.variant.sku
+        if object.variant
+          object.variant.sku
+        end
       end
 
       def name

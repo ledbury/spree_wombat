@@ -28,13 +28,12 @@ module Spree
 
         scope.where(updated_at: last_push_time...this_push_time).find_in_batches(batch_size: Spree::Wombat::Config[:batch_size]) do |batch|
           object_count += batch.size
-          payload = ActiveModel::Serializer::ArraySerializer.new(
-            batch,
-            serializer: payload_builder[:serializer].constantize,
-            root: payload_builder[:root]
-          ).to_json
-
-          push(payload)
+          payload = []
+          serializer = payload_builder[:serializer].constantize
+          batch.each do |object_to_send|
+            payload << serializer.new(object_to_send).to_json
+          end
+          push("{\"#{payload_builder[:root]}\":[#{payload.join(',')}]}")
         end
 
         update_last_pushed(object, this_push_time)
@@ -42,7 +41,6 @@ module Spree
       end
 
       def self.push(json_payload)
-        binding.pry
         res = HTTParty.post(
                 Spree::Wombat::Config[:push_url],
                 {
