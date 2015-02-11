@@ -1,5 +1,3 @@
-require 'byebug'
-
 module Spree
   module Wombat
     module Handler
