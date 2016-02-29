@@ -1,7 +1,6 @@
 require 'json'
 require 'openssl'
 require 'httparty'
-require 'active_model/array_serializer'
 
 module Spree
   module Wombat
@@ -28,7 +27,7 @@ module Spree
 
         scope.where(updated_at: last_push_time...this_push_time).find_in_batches(batch_size: Spree::Wombat::Config[:batch_size]) do |batch|
           object_count += batch.size
-          payload = ActiveModel::ArraySerializer.new(
+          payload = ActiveModel::Serializer::CollectionSerializer.new(
             batch,
             each_serializer: payload_builder[:serializer].constantize,
             root: payload_builder[:root]
