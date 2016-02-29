@@ -8,7 +8,7 @@ module Spree
         attr_accessor :payload, :parameters, :request_id
 
         def initialize(message)
-          self.payload = ::JSON.parse(message).with_indifferent_access
+          self.payload = message
           self.request_id = payload.delete(:request_id)
 
           if payload.key? :parameters
