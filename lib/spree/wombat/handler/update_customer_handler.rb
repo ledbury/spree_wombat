@@ -7,7 +7,9 @@ module Spree
           email = @payload["customer"]["email"]
 
           user = Spree.user_class.where(email: email).first
-          return response("Can't find customer with email '#{email}'", 500) unless user
+
+          raise "Can't find customer with email '#{email}'" if user.blank?
+          # return response("Can't find customer with email '#{email}'", 500) unless user
 
           firstname = @payload["customer"]["firstname"]
           lastname = @payload["customer"]["lastname"]
@@ -27,7 +29,8 @@ module Spree
             end
 
           rescue Exception => exception
-            return response(exception.message, 500)
+            # return response(exception.message, 500)
+            raise(exception)
           end
           response "Updated customer with #{email} and ID: #{user.id}"
         end
