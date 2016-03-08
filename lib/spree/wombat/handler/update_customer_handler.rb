@@ -15,19 +15,17 @@ module Spree
           lastname = @payload["customer"]["lastname"]
 
           begin
-
             if user.ship_address
               user.ship_address.update_attributes(prepare_address(firstname, lastname, @payload["customer"]["shipping_address"]))
-            else
+            elsif @payload["customer"]["shipping_address"]
               user.ship_address = Spree::Address.create!(prepare_address(firstname, lastname, @payload["customer"]["shipping_address"]))
             end
 
             if user.bill_address
               user.bill_address.update_attributes(prepare_address(firstname, lastname, @payload["customer"]["billing_address"]))
-            else
+            elsif @payload["customer"]["billing_address"]
               user.bill_address = Spree::Address.create!(prepare_address(firstname, lastname, @payload["customer"]["billing_address"]))
             end
-
           rescue Exception => exception
             # return response(exception.message, 500)
             raise(exception)
