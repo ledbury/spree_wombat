@@ -30,6 +30,11 @@ module Spree
             # return response(exception.message, 500)
             raise(exception)
           end
+
+          self.try(:before_object_save, user)
+
+          user.save
+
           response "Updated customer with #{email} and ID: #{user.id}"
         end
 

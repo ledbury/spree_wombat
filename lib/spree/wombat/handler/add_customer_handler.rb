@@ -15,6 +15,8 @@ module Spree
           firstname = @payload["customer"]["firstname"]
           lastname = @payload["customer"]["lastname"]
 
+          self.try(:before_object_save, user)
+
           begin
             user.ship_address = Spree::Address.create!(prepare_address(firstname, lastname, @payload["customer"]["shipping_address"]))
             user.bill_address = Spree::Address.create!(prepare_address(firstname, lastname, @payload["customer"]["billing_address"]))
@@ -24,7 +26,10 @@ module Spree
           end
 
           user.save
+
           response "Added new customer with #{email} and ID: #{user.id}"
+
+          user
         end
 
       end
