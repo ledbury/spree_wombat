@@ -1,5 +1,3 @@
-require 'pry'
-
 module Spree
   module Wombat
     module Handler
