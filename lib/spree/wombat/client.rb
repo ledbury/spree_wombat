@@ -27,13 +27,15 @@ module Spree
 
         scope.where(updated_at: last_push_time...this_push_time).find_in_batches(batch_size: Spree::Wombat::Config[:batch_size]) do |batch|
           object_count += batch.size
-          payload = ActiveModel::Serializer::CollectionSerializer.new(
+          serialized_collection = ActiveModel::Serializer::ArraySerializer.new(
             batch,
-            each_serializer: payload_builder[:serializer].constantize,
+            serializer: payload_builder[:serializer].constantize,
             root: payload_builder[:root]
-          ).to_json
+          )
 
-          push(payload)
+          serializer_adapter = ActiveModel::Serializer::Adapter.create(serialized_collection, adapter: :json)
+
+          push(serializer_adapter.to_json)
         end
 
         update_last_pushed(object, this_push_time)
