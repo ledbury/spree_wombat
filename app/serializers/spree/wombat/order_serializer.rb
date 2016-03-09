@@ -1,6 +1,3 @@
-require 'active_model/serializer'
-require 'pry'
-
 module Spree
   module Wombat
     class OrderSerializer < ActiveModel::Serializer
