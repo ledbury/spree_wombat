@@ -5,10 +5,12 @@ module Spree
 
         def process
           email = @payload["customer"]["email"]
+          user_id = @payload["customer"]["id"]
 
           user = Spree.user_class.where(email: email).first
+          user ||= Spree.user_class.find(user_id)
 
-          raise "Can't find customer with email '#{email}'" if user.blank?
+          raise "Can't find customer with email '#{email}' or ID '#{user_id}'" if user.blank?
           # return response("Can't find customer with email '#{email}'", 500) unless user
 
           firstname = @payload["customer"]["firstname"]
