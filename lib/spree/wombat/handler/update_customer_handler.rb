@@ -4,6 +4,8 @@ module Spree
       class UpdateCustomerHandler < CustomerHandlerBase
 
         def process
+          ActiveRecord::Base.record_timestamps = false
+
           email = @payload["customer"]["email"]
           user_id = @payload["customer"]["id"]
 
@@ -43,9 +45,11 @@ module Spree
 
           self.try(:before_object_save, user)
 
-          user.save
+          user.save!
 
           response "Updated customer with #{email} and ID: #{user.id}"
+        ensure
+          ActiveRecord::Base.record_timestamps = true
         end
 
       end
