@@ -16,6 +16,10 @@ module Spree
           firstname = @payload["customer"]["firstname"]
           lastname = @payload["customer"]["lastname"]
 
+          user.firstname = firstname
+          user.lastname = lastname
+          user.netsuite_customer_id = @payload["customer"]["internal_id"]
+
           begin
             if @payload["customer"]["shipping_address"]
               if user.ship_address
