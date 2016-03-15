@@ -5,8 +5,10 @@ module Spree
 
         def prepare_address(firstname, lastname, address_attributes)
           country_iso = address_attributes.delete(:country)
+
           country = Spree::Country.find_by_iso(country_iso)
           raise Exception.new("Can't find a country with iso name #{country_iso}!") unless country_iso
+
           address_attributes[:country_id] = country.id
 
           state_name = address_attributes.delete(:state)
@@ -16,8 +18,15 @@ module Spree
             address_attributes[:state_id] = state.id
           end
 
-          address_attributes[:firstname] = firstname
-          address_attributes[:lastname] = lastname
+          # set firstname from parent customer data if not set by address payload
+
+          if address_attributes[:firstname].blank?
+            address_attributes[:firstname] = firstname
+          end
+
+          if address_attributes[:lastname].blank?
+            address_attributes[:lastname] ||= lastname
+          end
 
           address_attributes
         end
