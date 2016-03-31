@@ -10,7 +10,6 @@ module Spree
           end
 
           user = Spree.user_class.new(email: email)
-          user.save(validate: false)
 
           firstname = @payload["customer"]["firstname"]
           lastname = @payload["customer"]["lastname"]
@@ -18,6 +17,8 @@ module Spree
           user.firstname = firstname
           user.lastname = lastname
           user.netsuite_customer_id = @payload["customer"]["internal_id"]
+
+          user.save(validate: false)
 
           begin
             user.ship_address = Spree::Address.create!(prepare_address(firstname, lastname, @payload["customer"]["shipping_address"]))
