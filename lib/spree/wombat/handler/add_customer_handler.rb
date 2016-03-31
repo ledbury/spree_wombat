@@ -13,6 +13,7 @@ module Spree
 
           firstname = @payload["customer"]["firstname"]
           lastname = @payload["customer"]["lastname"]
+          phone = @payload["customer"]["phone"]
 
           user.firstname = firstname
           user.lastname = lastname
@@ -21,8 +22,8 @@ module Spree
           user.save(validate: false)
 
           begin
-            user.ship_address = Spree::Address.create!(prepare_address(firstname, lastname, @payload["customer"]["shipping_address"]))
-            user.bill_address = Spree::Address.create!(prepare_address(firstname, lastname, @payload["customer"]["billing_address"]))
+            user.ship_address = Spree::Address.create!(prepare_address(firstname, lastname, phone, @payload["customer"]["shipping_address"]))
+            user.bill_address = Spree::Address.create!(prepare_address(firstname, lastname, phone, @payload["customer"]["billing_address"]))
           rescue Exception => exception
             # return response(exception.message, 500)
             raise exception
