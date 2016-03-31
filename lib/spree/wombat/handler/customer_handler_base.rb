@@ -3,7 +3,9 @@ module Spree
     module Handler
       class CustomerHandlerBase < Base
 
-        def prepare_address(firstname, lastname, address_attributes)
+        def prepare_address(firstname, lastname, phone, address_attributes)
+          address_attributes = address_attributes.deep_dup
+
           country_iso = address_attributes.delete(:country)
 
           country = Spree::Country.find_by_iso(country_iso)
@@ -25,7 +27,11 @@ module Spree
           end
 
           if address_attributes[:lastname].blank?
-            address_attributes[:lastname] ||= lastname
+            address_attributes[:lastname] = lastname
+          end
+
+          if address_attributes[:phone].blank?
+            address_attributes[:phone] = phone
           end
 
           address_attributes
