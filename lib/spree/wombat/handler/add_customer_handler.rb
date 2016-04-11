@@ -27,15 +27,12 @@ module Spree
             user.ship_address = Spree::Address.create!(prepare_address(firstname, lastname, phone, @payload["customer"]["shipping_address"]))
             user.bill_address = Spree::Address.create!(prepare_address(firstname, lastname, phone, @payload["customer"]["billing_address"]))
           rescue Exception => exception
-            # return response(exception.message, 500)
-            raise exception
+            return response(exception.message, 500)
           end
 
           user.save
 
           response "Added new customer with #{email} and ID: #{user.id}"
-
-          user
         end
 
       end
