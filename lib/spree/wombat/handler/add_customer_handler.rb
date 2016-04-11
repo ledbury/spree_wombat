@@ -5,8 +5,10 @@ module Spree
 
         def process
           email = @payload["customer"]["email"]
-          if Spree.user_class.where(email: email).count > 0
-            return response "Customer with email '#{email}' already exists!", 500
+          user_id = @payload["customer"]["id"]
+
+          if Spree.user_class.find_by(email: email) || user_id.present?
+            return Spree::Wombat::Handler::UpdateCustomerHandler.new(@payload).process
           end
 
           user = Spree.user_class.new(email: email)
