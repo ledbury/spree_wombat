@@ -11,10 +11,9 @@ module Spree
           user_id = @payload["customer"]["id"]
 
           user = Spree.user_class.where(email: email).first
-          user ||= Spree.user_class.find(user_id)
+          user ||= Spree.user_class.find_by(id: user_id)
 
-          raise "Can't find customer with email '#{email}' or ID '#{user_id}'" if user.blank?
-          # return response("Can't find customer with email '#{email}'", 500) unless user
+          return response("Can't find customer with email '#{email}' or ID '#{user_id}'", 500) unless user
 
           firstname = @payload["customer"]["firstname"]
           lastname = @payload["customer"]["lastname"]
@@ -41,11 +40,8 @@ module Spree
               end
             end
           rescue Exception => exception
-            # return response(exception.message, 500)
-            raise(exception)
+            return response(exception.message, 500)
           end
-
-          self.try(:before_object_save, user)
 
           user.save!
 
