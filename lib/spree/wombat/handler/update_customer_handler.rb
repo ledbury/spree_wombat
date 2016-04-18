@@ -10,7 +10,7 @@ module Spree
           email = @payload["customer"]["email"]
           user_id = @payload["customer"]["id"]
 
-          user = Spree.user_class.where(email: email).first
+          user = Spree.user_class.find_by(email: email)
           user ||= Spree.user_class.find_by(id: user_id)
 
           return response("Can't find customer with email '#{email}' or ID '#{user_id}'", 500) unless user
@@ -18,10 +18,13 @@ module Spree
           firstname = @payload["customer"]["firstname"]
           lastname = @payload["customer"]["lastname"]
           phone = @payload["customer"]["phone"]
+          internal_id = @payload["customer"]["internal_id"]
 
-          user.firstname = firstname
-          user.lastname = lastname
-          user.netsuite_customer_id = @payload["customer"]["internal_id"]
+          user.firstname = firstname if firstname.present?
+          user.lastname = lastname if lastname.present?
+          user.netsuite_customer_id = internal_id if internal_id.present?
+
+          user.save!
 
           begin
             if @payload["customer"]["shipping_address"]
@@ -40,7 +43,7 @@ module Spree
               end
             end
           rescue Exception => exception
-            return response(exception.message, 500)
+            return response(exception.message, 200)
           end
 
           user.save!
