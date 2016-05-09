@@ -17,6 +17,8 @@ module Spree
           scope = scope.send(filter.to_sym)
         end
 
+        Rails.logger.info "initiating poll: last_poll=#{last_poll_time} now=#{Time.now} model=#{model_name}"
+
         serialized_collection = ActiveModel::Serializer::ArraySerializer.new(
           scope.where(updated_at: last_poll_time...Time.now),
           serializer: payload_builder[:serializer].constantize,
