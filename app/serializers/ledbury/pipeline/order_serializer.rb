@@ -140,7 +140,7 @@ module Ledbury
         end
 
         card_type = spree_payment.source.cc_type
-        auth_code = spree_payment.identifier
+        auth_code = spree_payment.authorization_code
 
         response_code = if spree_payment.response_code.count(';') == 2
           spree_payment.response_code.split(";")[1]
