@@ -124,7 +124,7 @@ module Ledbury
           log.error 'order contains more than one payment', order_id: object.id
         end
 
-        spree_payment = object.payments.first
+        spree_payment = object.payments.valid.first
 
         # https://ledbury.slack.com/archives/pipeline/p1473283254000087
         if spree_payment.source.blank?
