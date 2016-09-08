@@ -1,7 +1,7 @@
 require 'active_model/serializer'
 
-module Spree
-  module Wombat
+module Ledbury
+  module Pipeline
     class OrderSerializer < ActiveModel::Serializer
       include SimpleStructuredLogger
 
@@ -28,8 +28,8 @@ module Spree
       # has_many :line_items, serializer: Spree::Wombat::LineItemSerializer, key: 'items'
       # has_many :payments, serializer: Spree::Wombat::PaymentSerializer
 
-      has_one :shipping_address, serializer: Spree::Wombat::AddressSerializer
-      has_one :billing_address, serializer: Spree::Wombat::AddressSerializer
+      has_one :shipping_address, serializer: Ledbury::Pipeline::AddressSerializer
+      has_one :billing_address, serializer: Ledbury::Pipeline::AddressSerializer
 
       def po_number
         object.number

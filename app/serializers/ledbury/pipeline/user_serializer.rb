@@ -6,8 +6,8 @@ module Spree
       attributes :firstname, :lastname, :email, :lead_source,
                  :id, :internal_id
 
-      has_one :ship_address, key: :shipping_address, serializer: Spree::Wombat::AddressSerializer
-      has_one :bill_address, key: :billing_address, serializer: Spree::Wombat::AddressSerializer
+      has_one :ship_address, key: :shipping_address, serializer: Ledbury::Pipeline::AddressSerializer
+      has_one :bill_address, key: :billing_address, serializer: Ledbury::Pipeline::AddressSerializer
 
       def lead_source
         object.questionnaire.try(:answer)

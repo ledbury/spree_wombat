@@ -1,7 +1,7 @@
 require 'active_model/serializer'
 
-module Spree
-  module Wombat
+module Ledbury
+  module Pipeline
     class AddressSerializer < ActiveModel::Serializer
       attributes :firstname, :lastname, :address1, :address2, :zipcode, :city,
                  :state, :country, :phone, :is_business
