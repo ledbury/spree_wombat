@@ -120,11 +120,17 @@ module Ledbury
       end
 
       def payment
-        if object.payments.size > 1
+        if object.payments.valid.size > 1
           log.error 'order contains more than one payment', order_id: object.id
         end
 
         spree_payment = object.payments.valid.first
+
+        if spree_payment.blank?
+          log.error 'order payment is blank', order_id: object.id
+
+          return {}
+        end
 
         # https://ledbury.slack.com/archives/pipeline/p1473283254000087
         if spree_payment.source.blank?
