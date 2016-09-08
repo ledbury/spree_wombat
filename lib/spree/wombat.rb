@@ -5,6 +5,12 @@ module Spree
   end
 end
 
+module Ledbury
+  module Pipeline
+
+  end
+end
+
 require 'spree/wombat/client'
 require 'spree/wombat/engine'
 require 'spree/wombat/responder'
