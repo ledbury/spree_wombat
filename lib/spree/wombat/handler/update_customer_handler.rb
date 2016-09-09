@@ -20,6 +20,10 @@ module Spree
           phone = @payload["customer"]["phone"]
           internal_id = @payload["customer"]["internal_id"]
 
+          if user.netsuite_customer_id.blank? && internal_id.present?
+            user.orders.complete.map(&:touch)
+          end
+
           user.firstname = firstname if firstname.present?
           user.lastname = lastname if lastname.present?
           user.netsuite_customer_id = internal_id if internal_id.present?
