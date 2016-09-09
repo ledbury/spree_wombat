@@ -1,7 +1,7 @@
 # NOTE this does not exist in Wombat core
 
-module Spree
-  module Wombat
+module Ledbury
+  module Pipeline
     class UserSerializer < ActiveModel::Serializer
       attributes :firstname, :lastname, :email, :lead_source,
                  :id, :internal_id
