@@ -17,10 +17,12 @@ module Spree
           scope = scope.send(filter.to_sym)
         end
 
-        Rails.logger.info "initiating poll: last_poll=#{last_poll_time} now=#{Time.now} model=#{model_name}"
+        scope = scope.where('updated_at > ?', last_poll_time)
+
+        Rails.logger.info "initiating poll: last_poll=#{last_poll_time} model=#{model_name} count=#{scope.count}"
 
         serialized_collection = ActiveModel::Serializer::ArraySerializer.new(
-          scope.where(updated_at: last_poll_time...Time.now),
+          scope,
           serializer: payload_builder[:serializer].constantize,
           root: payload_builder[:root]
         )
