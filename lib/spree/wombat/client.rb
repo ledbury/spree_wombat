@@ -10,14 +10,15 @@ module Spree
         payload_builder = Spree::Wombat::Config[:payload_builder][object]
 
         model_name = payload_builder[:model].present? ? payload_builder[:model] : object
+        model_class = model_name.constantize
 
-        scope = model_name.constantize
+        scope = model_class
 
         if filter = payload_builder[:filter]
           scope = scope.send(filter.to_sym)
         end
 
-        scope = scope.where('updated_at > ?', last_poll_time)
+        scope = scope.where("#{model_class.table_name}.updated_at > ?", last_poll_time)
 
         Rails.logger.info "initiating poll: last_poll=#{last_poll_time} model=#{model_name} count=#{scope.count}"
 
