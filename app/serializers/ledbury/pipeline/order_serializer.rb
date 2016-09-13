@@ -145,7 +145,8 @@ module Ledbury
         response_code = if spree_payment.response_code.count(';') == 2
           spree_payment.response_code.split(";")[1]
         else
-          fail "unexpected payment response encountered"
+          log.error 'unexpected payment response encountered', order_id: object.id
+          ''
         end
 
         # https://ledbury.slack.com/archives/pipeline/p1473252271000002
