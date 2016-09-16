@@ -142,7 +142,7 @@ module Ledbury
         card_type = spree_payment.source.cc_type
         auth_code = spree_payment.authorization_code
 
-        response_code = if spree_payment.response_code.count(';') == 2
+        response_code = if spree_payment.response_code.present? && spree_payment.response_code.count(';') == 2
           spree_payment.response_code.split(";")[1]
         else
           log.error 'unexpected payment response encountered', order_id: object.id
