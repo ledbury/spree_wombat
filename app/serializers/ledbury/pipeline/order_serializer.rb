@@ -92,18 +92,39 @@ module Ledbury
         object.line_items.non_gift_box.map do |line_item|
           if line_item.is_physical_gift_card?
             next {
+              # right now, the SKU + NS ID are NOT used when pushing orders into NS
+              # instead, the NS endpoint uses `gift_card_*` fields to determine proper mapping
+              # this is partially because the `spree_gift_card` extension doesn't use separate
+              # variants for physical vs digital gift cards, and there are hard coded SKU values
+              # tied to the ledbury gift card implementation
+
               "product_id" => line_item.variant.sku,
+              "netsuite_id" => line_item.variant.netsuite_item_id,
+
               "quantity" => line_item.quantity,
               "total" => line_item.sale_price,
-              "netsuite_id" => line_item.variant.netsuite_item_id,
 
               "gift_card" => true,
               "gift_card_code" => line_item.gift_card.code,
-              "gift_card_amount" => line_item.price
+              "gift_card_amount" => line_item.price,
+              "gift_card_type" => 'physical'
             }
           end
 
-          # TODO handle egift cards
+          if line_item.is_gift_card? && !line_item.is_physical_gift_card?
+            next {
+              "product_id" => line_item.variant.sku,
+              "netsuite_id" => line_item.variant.netsuite_item_id,
+
+              "quantity" => line_item.quantity,
+              "total" => line_item.sale_price,
+
+              "gift_card" => true,
+              "gift_card_code" => line_item.gift_card.code,
+              "gift_card_amount" => line_item.price,
+              "gift_card_type" => 'electronic'
+            }
+          end
 
           {
             "product_id" => line_item.variant.sku,
@@ -142,6 +163,7 @@ module Ledbury
         card_type = spree_payment.source.cc_type
         auth_code = spree_payment.authorization_code
 
+        # the response code (the P/N ref in NetSuite) is hidden as the second element in the colon-separated response string
         response_code = if spree_payment.response_code.present? && spree_payment.response_code.count(';') == 2
           spree_payment.response_code.split(";")[1]
         else
