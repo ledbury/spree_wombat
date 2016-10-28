@@ -102,7 +102,7 @@ module Ledbury
               "netsuite_id" => line_item.variant.netsuite_item_id,
 
               "quantity" => line_item.quantity,
-              "total" => line_item.sale_price,
+              "price" => line_item.sale_price,
 
               "gift_card" => true,
               "gift_card_code" => line_item.gift_card.code,
@@ -117,7 +117,7 @@ module Ledbury
               "netsuite_id" => line_item.variant.netsuite_item_id,
 
               "quantity" => line_item.quantity,
-              "total" => line_item.sale_price,
+              "price" => line_item.sale_price,
 
               "gift_card" => true,
               "gift_card_code" => line_item.gift_card.code,
@@ -128,14 +128,13 @@ module Ledbury
 
           {
             "product_id" => line_item.variant.sku,
-            "quantity" => line_item.quantity,
-            "gift_box" => line_item.attached_line_items.present?,
-            "tailoring" => if line_item.has_alteration?
-              line_item.alterations.first.degree
-            end,
-            # "total" => line_item.final_amount,
-            "total" => line_item.sale_price,
             "netsuite_id" => line_item.variant.netsuite_item_id
+
+            "quantity" => line_item.quantity,
+            "price" => line_item.sale_price,
+
+            "gift_box" => line_item.attached_line_items.present?,
+            "tailoring" => (line_item.has_alteration?) ? line_item.alterations.first.degree : nil,
           }
         end
       end
