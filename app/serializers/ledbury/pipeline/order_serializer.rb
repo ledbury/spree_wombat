@@ -128,7 +128,7 @@ module Ledbury
 
           {
             "product_id" => line_item.variant.sku,
-            "netsuite_id" => line_item.variant.netsuite_item_id
+            "netsuite_id" => line_item.variant.netsuite_item_id,
 
             "quantity" => line_item.quantity,
             "price" => line_item.sale_price,
