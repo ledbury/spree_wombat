@@ -107,7 +107,13 @@ module Ledbury
               "gift_card" => true,
               "gift_card_code" => line_item.gift_card.code,
               "gift_card_amount" => line_item.price,
-              "gift_card_type" => 'physical'
+              "gift_card_type" => 'physical',
+
+              # this data is required for the gift card email system; this is not strictly required from the netsuite side
+              "gift_card_from" => line_item.gift_card.your_name,
+              "gift_card_recipient_email" => line_item.gift_card.email,
+              "gift_card_recipient_name" => line_item.gift_card.name,
+              "gift_card_message" => line_item.gift_card.note
             }
           end
 
@@ -122,7 +128,13 @@ module Ledbury
               "gift_card" => true,
               "gift_card_code" => line_item.gift_card.code,
               "gift_card_amount" => line_item.price,
-              "gift_card_type" => 'electronic'
+              "gift_card_type" => 'electronic',
+
+              # this data is required for the gift card email system; this is not strictly required from the netsuite side
+              "gift_card_from" => line_item.gift_card.your_name,
+              "gift_card_recipient_email" => line_item.gift_card.email,
+              "gift_card_recipient_name" => line_item.gift_card.name,
+              "gift_card_message" => line_item.gift_card.note
             }
           end
 
