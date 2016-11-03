@@ -171,6 +171,10 @@ module Ledbury
           return { type: 'gift_card' }
         end
 
+        if spree_payment.source.is_a?(Spree::PaypalExpressCheckout)
+          return { type: 'paypal' }
+        end
+
         card_type = spree_payment.source.cc_type
         auth_code = spree_payment.authorization_code
 
