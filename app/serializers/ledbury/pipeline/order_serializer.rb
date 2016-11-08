@@ -171,7 +171,8 @@ module Ledbury
           return { type: 'gift_card' }
         end
 
-        if spree_payment.source.is_a?(Spree::PaypalExpressCheckout)
+        # checking `defined?` to enable this functionality when paypal is deployed
+        if defined?(Spree::PaypalExpressCheckout) && spree_payment.source.is_a?(Spree::PaypalExpressCheckout)
           return { type: 'paypal' }
         end
 
