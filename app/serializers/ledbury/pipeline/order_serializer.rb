@@ -103,6 +103,7 @@ module Ledbury
 
               "quantity" => line_item.quantity,
               "price" => line_item.sale_price,
+              "final_sale" => line_item.final_sale?,
 
               "gift_card" => true,
               "gift_card_code" => line_item.gift_card.code,
@@ -124,6 +125,7 @@ module Ledbury
 
               "quantity" => line_item.quantity,
               "price" => line_item.sale_price,
+              "final_sale" => line_item.final_sale?,
 
               "gift_card" => true,
               "gift_card_code" => line_item.gift_card.code,
@@ -147,6 +149,7 @@ module Ledbury
 
             "gift_box" => line_item.attached_line_items.present?,
             "tailoring" => (line_item.has_alteration?) ? line_item.alterations.first.degree : nil,
+            "final_sale" => line_item.final_sale?
           }
         end
       end
